@@ -1,0 +1,7 @@
+name, avg. delay (ms), st.dev. delay (ms), max txs, wait when full (ms)
+app,3000,1000,10000000,500
+appSys, 200,80,300,500
+dlt,2700,900,30,1500
+dltview,700,300,800,500
+dbms,300,150,300,200
+dms,500,400,30,1000

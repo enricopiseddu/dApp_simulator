@@ -1,0 +1,23 @@
+TX data: name, nr. txs,% operators, % customers, avg blocks, s.d. blocks
+For each txs: type, component, avg time (ms), std. dev. (ms)
+Simple write,5,50,0,1,0
+DLT_read,dlt,700,200
+DB_read,dbms,200,50
+Input,app,15000,5000
+DB_write,dbms,100,30
+DLT_write,dlt,2500,1000
+Document write,6,50,0,1,0
+DLT_read,dltview,700,200
+DB_read,dbms,200,50
+Input,app,15000,5000
+Doc_upload,dms,3200,700
+DB_write,dbms,100,30
+DLT_write,dlt,2500,1000
+Simple read,2,0,50,4,2
+DLT_read,dltview,700,200
+Read,app,5000,4000
+Document read,4,0,50,3,1
+DLT_read,dltview,700,200
+Read,app,5000,4000
+Doc_download,dms,3000,550
+Read,app,20000,6000
