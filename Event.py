@@ -12,3 +12,9 @@ class Event:
 
     def showTime(self):
         Simulator.showTime(self.time)
+
+    def __lt__(self, other):
+        if self.time < other.time:
+            return True
+        else:
+            return False

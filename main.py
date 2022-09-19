@@ -246,4 +246,4 @@ for c in s.components:
             duration = duration + tx.duration()
         print("Component " + c.name + ": " + str(numTxComp/duration) + " tx/sec")
 
-print('\n Other statistics and report available in ./report')
+print('\nOther statistics and report available in ./report')

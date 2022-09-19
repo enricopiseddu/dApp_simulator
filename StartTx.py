@@ -26,6 +26,6 @@ class StartTx(Event):
 
         # Simulator current eventQueue add: event
         s = Simulator.getInstance()
-        s.eventQueue.append(event)
-        # s.sortEventQueue()
+        s.eventQueue.add(event)
+
 

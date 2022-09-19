@@ -5,7 +5,10 @@ from Operator import *
 from Customer import *
 from ARandom import *
 from operator import attrgetter
+from sortedcontainers import SortedList
+
 import csv
+
 
 # from ResubmitTx import ResubmitTx
 from StartTx import StartTx
@@ -29,7 +32,7 @@ class Simulator:
         self.actors = []
         self.complexTxs = []
         self.components = []
-        self.eventQueue = []
+        self.eventQueue = SortedList()  # SortedList based on events' timestamp
         self.schedules = {
             "OP1": [0, 0, 0, 0, 0, 0, 0, 0, 0.10, 0.13, 0.13, 0.13, 0.07, 0.04, 0.12, 0.12, 0.12, 0.04, 0, 0, 0, 0,
                     0,
@@ -178,15 +181,13 @@ class Simulator:
                 for anActor in self.actors:
                     tx.createTransactionFor(anActor)
 
-    def sortEventQueue(self):
-        self.eventQueue.sort(key=lambda x: x.time, reverse=True)
+    #def sortEventQueue(self):
+    #    self.eventQueue.sort(key=lambda x: x.time, reverse=True)
 
     def run(self):
         while len(self.eventQueue) != 0:
             # simulator takes the event with minimum timestamp
-            event = min(self.eventQueue, key=attrgetter('time'))
-
-            self.eventQueue.remove(event)
+            event = self.eventQueue.pop(0)
             self.time = event.time
             event.execute()
 
@@ -263,7 +264,7 @@ class ComplexTXType:
                     event.time = time
                     event.tx = tx
 
-                    Simulator.getInstance().eventQueue.append(event)
+                    Simulator.getInstance().eventQueue.add(event)
 
                     first = False
 
@@ -300,7 +301,7 @@ class StartTx(Event):
         event.tx = self.tx
 
         s = Simulator.getInstance()
-        s.eventQueue.append(event)
+        s.eventQueue.add(event)
 
 
 class EndTx(Event):
@@ -321,7 +322,7 @@ class EndTx(Event):
         event.tx = newTx
 
         s = Simulator.getInstance()
-        s.eventQueue.append(event)
+        s.eventQueue.add(event)
 
 
 class ResubmitTx(Event):
@@ -341,7 +342,7 @@ class ResubmitTx(Event):
 
         event.time = self.time + duration
         event.tx = self.tx
-        # Simulator current eventQueue add: event
-        Simulator.getInstance().eventQueue.append(event)
-        # Simulator.getInstance().sortEventQueue()
+
+        Simulator.getInstance().eventQueue.add(event)
+
 
