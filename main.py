@@ -1,15 +1,45 @@
+"""
+This software is distributed under MIT/X11 license
+
+Copyright (c) 2022 Enrico Piseddu - University of Cagliari
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+"""
+
+
 from Actor import *
 from Customer import *
 from Operator import *
 # from simulator import Simulator
 from simulator import *
-import os
+import time
 import matplotlib.pyplot as plt
 import pandas as pd
 import statistics as st
 
 # simulator creation
 s = Simulator.getInstance()
+
+start_time = time.time()
 
 # read data from files
 s.getInstance().readActorsFrom('./configuration/actors.csv')
@@ -25,6 +55,10 @@ print('Simulator is running...')
 # we run the simulator
 s.getInstance().run()
 print('Simulation ended\n')
+
+end_time = time.time()
+execution_time = end_time-start_time
+print('Execution time of Simulator: ' + str(int(execution_time)) + ' sec')
 
 # From this point, we compute all needed outputs
 
@@ -231,7 +265,7 @@ plt.xticks(fontsize=10)
 plt.title('Average of duration of complex transactions\nTotal actors: ' + str(total_actors))
 plt.ylabel('time in ms')
 plt.grid(axis='y')
-plt.savefig('./report/complex_txs_duration_actors_'+ str(total_actors)+'.png')
+plt.savefig('./report/complex_txs_duration_actors_' + str(total_actors)+'.png')
 plt.show()
 
 
