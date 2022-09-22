@@ -27,6 +27,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 import math
+import random
 import random as r
 
 
@@ -62,7 +63,7 @@ class ARandom:
     def logNormal(self, avg, std):
         # Returns a random number with Lognormal distribution having average avg and s.d. std
         lm = math.log(avg**2 / math.sqrt((avg**2 + std**2)))
-        ls = math.sqrt(math.log(avg**2 + std**2)/avg**2)
+        ls = math.sqrt(math.log((avg**2 + std**2)/avg**2))
         return math.exp(self.gauss(lm, ls))
 
     def rand(self):

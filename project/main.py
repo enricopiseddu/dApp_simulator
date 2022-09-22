@@ -40,7 +40,7 @@ import statistics as st
 s = Simulator.getInstance()
 
 start_time = time.time()
-
+print('Read data from csv and generating objects...')
 # read data from files
 s.getInstance().readActorsFrom('./configuration/actors.csv')
 s.getInstance().readComponentsFrom('./configuration/components.csv')
@@ -62,6 +62,8 @@ print('Execution time of Simulator: ' + str(int(execution_time)) + ' sec')
 
 # From this point, we compute all needed outputs
 
+print('\nOutput generation in progress...')
+
 # remove comment if there is not the directory named "/report"
 # os.mkdir('./report')
 # os.mkdir('./report/components')
@@ -76,6 +78,16 @@ for c in s.getInstance().components:
     plt.grid()
     plt.savefig('./report/components/' + c.name + '_transactions_actors_'+ str(total_actors)+'.png')
     plt.show()
+
+# ******* print if and when each component is full *******
+print('Components full')
+for c in s.getInstance().components:
+    print(c.name + ' full at:')
+    if len(c.timeWhenFull) > 0:
+        for t in c.timeWhenFull:
+            print('   ' + Component.showTime(t))
+    else:
+        print('   not full')
 
 
 # ************ ALL BASIC TXS STATISTICS ************
@@ -160,6 +172,24 @@ plt.grid(axis='y')
 plt.savefig('./report/base_txs_duration_actors_' + str(total_actors)+'.png')
 plt.show()
 
+# *********** AVG DURATION OF COMPLEX TXS **************
+# estimation of duration of complex transactions
+complexTxsName = ['Simple Write', 'Document Write', 'Simple Read', 'Document Read']
+avgDurComplexTxs = [
+    averageDuration[0] + averageDuration[2] + averageDuration[3] + averageDuration[7] + averageDuration[8],  # sum of durations of basic transaction
+    averageDuration[0] + averageDuration[2] + averageDuration[3] + averageDuration[6]+ averageDuration[7] + averageDuration[8],
+    averageDuration[1] + averageDuration[4],
+    averageDuration[1]*2 + averageDuration[4] + averageDuration[5]
+]
+
+plt.bar([1,2,3,4], avgDurComplexTxs, align='center')
+plt.xticks([1,2,3,4], complexTxsName)
+plt.xticks(fontsize=10)
+plt.title('Average of duration of complex transactions\nTotal actors: ' + str(total_actors))
+plt.ylabel('time in ms')
+plt.grid(axis='y')
+plt.savefig('./report/complex_txs_duration_actors_' + str(total_actors)+'.png')
+plt.show()
 
 # ****** STATISTIC OF BASE TXS IN A GIVEN TIME INTERVAL
 app_input = []  # txs list of "app input"
@@ -173,7 +203,7 @@ dbms_read = []
 dbms_write = []
 
 start_interval = 12 * 3600 * 1000  # start interval at 12.00
-end_interval = 15 * 3600 * 1000  # end interval at 3pm
+end_interval = 13 * 3600 * 1000  # end interval at 3pm
 
 # we collect all basic transactions in their appropriate data structure
 for c in s.components:
@@ -247,27 +277,6 @@ plt.ylabel('time in ms')
 plt.grid(axis='y')
 plt.savefig('./report/interval_base_txs_duration_actors_' + str(total_actors)+'.png')
 plt.show()
-
-
-# *********** AVG DURATION OF COMPLEX TXS **************
-# estimation of duration of complex transactions
-complexTxsName = ['Simple Write', 'Document Write', 'Simple Read', 'Document Read']
-avgDurComplexTxs = [
-    averageDuration[0] + averageDuration[2] + averageDuration[3] + averageDuration[7] + averageDuration[8],  # sum of durations of basic transaction
-    averageDuration[0] + averageDuration[2] + averageDuration[3] + averageDuration[6]+ averageDuration[7] + averageDuration[8],
-    averageDuration[1] + averageDuration[4],
-    averageDuration[1]*2 + averageDuration[4] + averageDuration[5]
-]
-
-plt.bar([1,2,3,4], avgDurComplexTxs, align='center')
-plt.xticks([1,2,3,4], complexTxsName)
-plt.xticks(fontsize=10)
-plt.title('Average of duration of complex transactions\nTotal actors: ' + str(total_actors))
-plt.ylabel('time in ms')
-plt.grid(axis='y')
-plt.savefig('./report/complex_txs_duration_actors_' + str(total_actors)+'.png')
-plt.show()
-
 
 # ********* NR. BASIC TXS/SEC, for each component *********
 print("Nr. basic tx/sec, for each component: ")

@@ -209,9 +209,6 @@ class Simulator:
                 for anActor in self.actors:
                     tx.createTransactionFor(anActor)
 
-    #def sortEventQueue(self):
-    #    self.eventQueue.sort(key=lambda x: x.time, reverse=True)
-
     def run(self):
         while len(self.eventQueue) != 0:
             # simulator takes the event with minimum timestamp
@@ -318,7 +315,6 @@ class StartTx(Event):
         else:
             r = ARandom()
             duration = r.logNormal(self.tx.type.avgTime, self.tx.type.stdDevTime)
-
             duration = duration + self.tx.component.delay()
             self.tx.creationTime = self.time
             self.tx.component.addTransaction(self.tx)

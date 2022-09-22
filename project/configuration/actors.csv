@@ -1,3 +1,3 @@
 Actors data: type, nr. of actors, nr. TXs/day, std.dev. TXs/day, schedule
-operators,17500,50,30,OP1
-customers,1750000,3,10,CU1
+operators,500,50,30,OP1
+customers,50000,3,10,CU1

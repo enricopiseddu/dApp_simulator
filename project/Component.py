@@ -42,11 +42,18 @@ class Component:
         self.name = 0
         self.stDevDelay = 0.0
         self.txsUnderWork = 0
+        self.timeWhenFull = []  # list of timestamp when the component is full
+
 
     def addTxsUnderWork(self, time):
         self.txsUnderWork = self.txsUnderWork + 1
         if self.isFull():
-            print(self.name, ' is full', 'tx under work ', self.txsUnderWork, ' at ', Component.showTime(time))
+            # print(self.name, ' is full', 'tx under work ', self.txsUnderWork, ' at ', Component.showTime(time))
+            if len(self.timeWhenFull) == 0:
+                self.timeWhenFull.append(time)
+            else:
+                if time - self.timeWhenFull[-1] > 3600000:
+                    self.timeWhenFull.append(time)
 
     def addTransaction(self, aTransaction):
         self.addTxsUnderWork(aTransaction.creationTime)
