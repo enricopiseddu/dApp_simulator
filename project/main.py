@@ -70,7 +70,7 @@ print('\nOutput generation in progress...')
 
 for c in s.getInstance().components:
     # we take transactions from 8am to 10pm with step of 1 hour
-    c.txsInInterval(28800000, 82800000, 3600000, './report/components/' + c.name + '_transactions_actors_'+ str(total_actors)+'.csv')
+    c.txsInInterval(21600000, 82800000, 3600000, './report/components/' + c.name + '_transactions_actors_'+ str(total_actors)+'.csv')
     df = pd.read_csv('./report/components/' + c.name + '_transactions_actors_' + str(total_actors)+'.csv', sep=',')
     df.plot(x='time', y=['started', 'ended'])
     plt.ylabel('transactions')
