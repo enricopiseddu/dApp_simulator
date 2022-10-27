@@ -166,9 +166,9 @@ class Component:
 
         for each in self.allTxs:
             if each.creationTime >= start and each.endTime <= stop:
-                _in = math.floor(((each.creationTime - start)/step))
+                _in = math.floor(((each.creationTime - start) / step))
                 started[_in] = started[_in] + 1
-                fin = math.floor(((each.endTime - start)/step))
+                fin = math.floor(((each.endTime - start) / step))
                 ended[fin] = ended[fin] + 1
 
         return [started, ended]
